@@ -88,10 +88,10 @@ Run from your **Wappler project root** (the folder that contains `package.json`)
 ```bash
 git clone https://github.com/MrCheeseGit/Wappler-Cache-Machine-Extension.git ../Wappler-Cache-Machine-Extension
 
-cp ../Wappler-Cache-Machine-Extension/cachemachine_get.hjson extensions/server_connect/modules/
-cp ../Wappler-Cache-Machine-Extension/cachemachine_set.hjson extensions/server_connect/modules/
-cp ../Wappler-Cache-Machine-Extension/cachemachine_clear.hjson extensions/server_connect/modules/
-cp ../Wappler-Cache-Machine-Extension/cachemachine.js lib/modules/
+cp ../Wappler-Cache-Machine-Extension/server_connect/modules/cachemachine_get.hjson extensions/server_connect/modules/
+cp ../Wappler-Cache-Machine-Extension/server_connect/modules/cachemachine_set.hjson extensions/server_connect/modules/
+cp ../Wappler-Cache-Machine-Extension/server_connect/modules/cachemachine_clear.hjson extensions/server_connect/modules/
+cp ../Wappler-Cache-Machine-Extension/server_connect/modules/cachemachine.js lib/modules/
 ```
 
 Wappler may also load `cachemachine.js` from `extensions/server_connect/modules/` (npm / deploy). The module is **self-contained** — no second file required.

@@ -14,19 +14,19 @@
     ],
     "copy": [
       {
-        "src": "cachemachine.js",
+        "src": "server_connect/modules/cachemachine.js",
         "dest": "lib/modules/cachemachine.js"
       },
       {
-        "src": "cachemachine_get.hjson",
+        "src": "server_connect/modules/cachemachine_get.hjson",
         "dest": "extensions/server_connect/modules/cachemachine_get.hjson"
       },
       {
-        "src": "cachemachine_set.hjson",
+        "src": "server_connect/modules/cachemachine_set.hjson",
         "dest": "extensions/server_connect/modules/cachemachine_set.hjson"
       },
       {
-        "src": "cachemachine_clear.hjson",
+        "src": "server_connect/modules/cachemachine_clear.hjson",
         "dest": "extensions/server_connect/modules/cachemachine_clear.hjson"
       }
     ],
