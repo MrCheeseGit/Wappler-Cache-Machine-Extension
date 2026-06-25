@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.8
+## 1.1.9
 
 Current release of **Cache Machine**. See [README](README.md) for features, installation, and usage.
 
