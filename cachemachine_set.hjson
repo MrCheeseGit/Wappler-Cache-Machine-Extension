@@ -1,0 +1,198 @@
+{
+  type: 'cachemachine_set'
+  module: 'cachemachine'
+  action: 'set'
+  groupTitle: 'Mr Cheese'
+  groupIcon: 'fas fa-lg fa-cheese comp-exec'
+  title: 'Cache Machine Set'
+  icon: 'fas fa-lg fa-upload comp-data'
+  outputType: 'object'
+
+  help: 'Store data in scoped cache with TTL (seconds). Use the same namespace and cache key as Cache Machine Get. Max TTL 7 days.'
+
+  dataScheme: [
+    {name: 'success', type: 'boolean'}
+    {name: 'key', type: 'text'}
+    {name: 'namespace', type: 'text'}
+    {name: 'store', type: 'text'}
+    {name: 'ttl', type: 'number'}
+    {name: 'error', type: 'text'}
+  ]
+
+  dataPickObject: true
+
+  properties: [
+    {
+      group: 'Settings'
+      variables: [
+        {
+          name: 'actionName'
+          optionName: 'name'
+          title: 'Name'
+          type: 'text'
+          required: true
+          defaultValue: ''
+          baseName: 'cacheSet'
+          help: 'Step name for bindings (e.g. {{cacheSet.key}})'
+        }
+        {
+          name: 'actionOutput'
+          optionName: 'output'
+          title: 'Output'
+          type: 'boolean'
+          initValue: false
+          defaultValue: false
+        }
+      ]
+    }
+    {
+      group: 'Cache scope'
+      variables: [
+        {
+          name: 'keyPreset'
+          optionName: 'cacheKey'
+          title: 'Cache key preset'
+          type: 'droplist'
+          values: [
+            {
+              title: 'Custom (use field below)'
+              value: ''
+              show: ['cacheKeyCustom']
+            }
+            {
+              title: 'Per user ({{identity}})'
+              value: '{{identity}}'
+              hide: ['cacheKeyCustom']
+            }
+            {
+              title: 'Per IP ({{$_SERVER.REMOTE_ADDR}})'
+              value: '{{$_SERVER.REMOTE_ADDR}}'
+              hide: ['cacheKeyCustom']
+            }
+            {
+              title: 'Per user + URI'
+              value: '{{identity}}:{{$_SERVER.REQUEST_URI}}'
+              hide: ['cacheKeyCustom']
+            }
+          ]
+          defaultValue: '{{identity}}'
+          help: 'Preset wins at runtime — must match Cache Machine Get.'
+        }
+        {
+          name: 'cacheKeyCustom'
+          optionName: 'cacheKeyCustom'
+          title: 'Custom cache key'
+          type: 'text'
+          serverDataBindings: true
+          defaultValue: ''
+          help: 'Only when preset is Custom. Ignored when a preset is selected.'
+        }
+        {
+          name: 'namespacePreset'
+          optionName: 'namespace'
+          title: 'Namespace preset'
+          type: 'droplist'
+          values: [
+            {
+              title: 'Custom or none (type below)'
+              value: ''
+              show: ['namespaceCustom']
+            }
+            {
+              title: 'userProfile — account / profile'
+              value: 'userProfile'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'userSettings — preferences'
+              value: 'userSettings'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'notifications — alerts / inbox'
+              value: 'notifications'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'dashboard — summary / home data'
+              value: 'dashboard'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'list — tables / paginated lists'
+              value: 'list'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'detail — single record'
+              value: 'detail'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'search — search results'
+              value: 'search'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'lookup — reference / dropdown data'
+              value: 'lookup'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'content — pages / CMS blocks'
+              value: 'content'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'report — heavy / slow reports'
+              value: 'report'
+              hide: ['namespaceCustom']
+            }
+          ]
+          defaultValue: ''
+          help: 'Preset wins at runtime — same on Get, Set, and Clear.'
+        }
+        {
+          name: 'namespaceCustom'
+          optionName: 'namespaceCustom'
+          title: 'Custom namespace'
+          type: 'text'
+          serverDataBindings: true
+          defaultValue: ''
+          help: 'Only when preset is Custom or none. Ignored when a namespace preset is selected.'
+        }
+        {
+          name: 'requireScopeKey'
+          optionName: 'requireScopeKey'
+          title: 'Require non-empty cache key'
+          type: 'boolean'
+          defaultValue: true
+        }
+      ]
+    }
+    {
+      group: 'Payload'
+      variables: [
+        {
+          name: 'data'
+          optionName: 'data'
+          title: 'Data to cache'
+          type: 'text'
+          required: true
+          serverDataBindings: true
+          defaultValue: ''
+          help: 'Bind prior step output (e.g. {{notificationsQuery}}). Must be JSON-serializable.'
+        }
+        {
+          name: 'ttl'
+          optionName: 'ttl'
+          title: 'TTL (seconds)'
+          type: 'numberorstring'
+          serverDataBindings: true
+          defaultValue: 120
+          help: 'Time to live in seconds (default 120). Max 604800 (7 days).'
+        }
+      ]
+    }
+  ]
+}

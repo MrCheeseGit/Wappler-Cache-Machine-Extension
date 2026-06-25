@@ -1,0 +1,196 @@
+{
+  type: 'cachemachine_clear'
+  module: 'cachemachine'
+  action: 'clear'
+  groupTitle: 'Mr Cheese'
+  groupIcon: 'fas fa-lg fa-cheese comp-exec'
+  title: 'Cache Machine Clear'
+  icon: 'fas fa-lg fa-trash comp-data'
+  outputType: 'object'
+
+  help: 'Remove cached entries. Exact mode deletes one key (same scope as Get/Set). Namespace mode deletes all keys under a namespace prefix.'
+
+  dataScheme: [
+    {name: 'success', type: 'boolean'}
+    {name: 'removed', type: 'number'}
+    {name: 'key', type: 'text'}
+    {name: 'namespace', type: 'text'}
+    {name: 'prefix', type: 'text'}
+    {name: 'store', type: 'text'}
+    {name: 'error', type: 'text'}
+  ]
+
+  dataPickObject: true
+
+  properties: [
+    {
+      group: 'Settings'
+      variables: [
+        {
+          name: 'actionName'
+          optionName: 'name'
+          title: 'Name'
+          type: 'text'
+          required: true
+          defaultValue: ''
+          baseName: 'cacheClear'
+          help: 'Step name for bindings (e.g. {{cacheClear.removed}})'
+        }
+        {
+          name: 'actionOutput'
+          optionName: 'output'
+          title: 'Output'
+          type: 'boolean'
+          initValue: false
+          defaultValue: false
+        }
+        {
+          name: 'mode'
+          optionName: 'mode'
+          title: 'Clear mode'
+          type: 'droplist'
+          values: [
+            {
+              title: 'Exact key (same as Get/Set)'
+              value: 'exact'
+              show: ['keyPreset', 'cacheKeyCustom', 'namespacePreset', 'namespaceCustom', 'requireScopeKey']
+              hide: []
+            }
+            {
+              title: 'All keys in namespace'
+              value: 'namespace'
+              show: ['namespacePreset', 'namespaceCustom']
+              hide: ['keyPreset', 'cacheKeyCustom', 'requireScopeKey']
+            }
+          ]
+          defaultValue: 'exact'
+        }
+      ]
+    }
+    {
+      group: 'Cache scope'
+      variables: [
+        {
+          name: 'keyPreset'
+          optionName: 'cacheKey'
+          title: 'Cache key preset'
+          type: 'droplist'
+          values: [
+            {
+              title: 'Custom (use field below)'
+              value: ''
+              show: ['cacheKeyCustom']
+            }
+            {
+              title: 'Per user ({{identity}})'
+              value: '{{identity}}'
+              hide: ['cacheKeyCustom']
+            }
+            {
+              title: 'Per IP ({{$_SERVER.REMOTE_ADDR}})'
+              value: '{{$_SERVER.REMOTE_ADDR}}'
+              hide: ['cacheKeyCustom']
+            }
+            {
+              title: 'Per user + URI'
+              value: '{{identity}}:{{$_SERVER.REQUEST_URI}}'
+              hide: ['cacheKeyCustom']
+            }
+          ]
+          defaultValue: '{{identity}}'
+          help: 'Preset wins at runtime — must match Get/Set in exact mode.'
+        }
+        {
+          name: 'cacheKeyCustom'
+          optionName: 'cacheKeyCustom'
+          title: 'Custom cache key'
+          type: 'text'
+          serverDataBindings: true
+          defaultValue: ''
+          help: 'Only when preset is Custom. Ignored when a preset is selected.'
+        }
+        {
+          name: 'namespacePreset'
+          optionName: 'namespace'
+          title: 'Namespace preset'
+          type: 'droplist'
+          values: [
+            {
+              title: 'Custom or none (type below)'
+              value: ''
+              show: ['namespaceCustom']
+            }
+            {
+              title: 'userProfile — account / profile'
+              value: 'userProfile'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'userSettings — preferences'
+              value: 'userSettings'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'notifications — alerts / inbox'
+              value: 'notifications'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'dashboard — summary / home data'
+              value: 'dashboard'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'list — tables / paginated lists'
+              value: 'list'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'detail — single record'
+              value: 'detail'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'search — search results'
+              value: 'search'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'lookup — reference / dropdown data'
+              value: 'lookup'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'content — pages / CMS blocks'
+              value: 'content'
+              hide: ['namespaceCustom']
+            }
+            {
+              title: 'report — heavy / slow reports'
+              value: 'report'
+              hide: ['namespaceCustom']
+            }
+          ]
+          defaultValue: ''
+          help: 'Preset wins at runtime. Namespace mode: clears all keys under cm:{namespace}:'
+        }
+        {
+          name: 'namespaceCustom'
+          optionName: 'namespaceCustom'
+          title: 'Custom namespace'
+          type: 'text'
+          serverDataBindings: true
+          defaultValue: ''
+          help: 'Only when preset is Custom or none. Or bind {{cacheGet.namespace}}. Ignored when a preset is selected.'
+        }
+        {
+          name: 'requireScopeKey'
+          optionName: 'requireScopeKey'
+          title: 'Require non-empty cache key'
+          type: 'boolean'
+          defaultValue: true
+        }
+      ]
+    }
+  ]
+}

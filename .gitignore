@@ -1,0 +1,14 @@
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.npmrc
+
+.env
+.env.*
+!.env.example
+
+plan.md
+
+.cursor/
+.vscode/

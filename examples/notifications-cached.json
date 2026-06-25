@@ -1,0 +1,109 @@
+{
+  "settings": {
+    "options": {
+      "restrict": "yourSecurityProvider"
+    }
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "cacheGet",
+        "module": "cachemachine",
+        "action": "get",
+        "options": {
+          "cacheKey": "{{identity}}",
+          "namespace": "notifications",
+          "requireScopeKey": true
+        },
+        "output": true,
+        "meta": [
+          { "name": "success", "type": "boolean" },
+          { "name": "hit", "type": "boolean" },
+          { "name": "data", "type": "text" },
+          { "name": "key", "type": "text" },
+          { "name": "store", "type": "text" }
+        ],
+        "outputType": "object"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{cacheGet.hit}}",
+          "then": {
+            "steps": [
+              {
+                "name": "cachedResponse",
+                "module": "core",
+                "action": "setvalue",
+                "options": {
+                  "value": "{{cacheGet.data}}"
+                },
+                "output": true,
+                "outputType": "object"
+              }
+            ]
+          },
+          "else": {
+            "steps": [
+              {
+                "name": "notificationsQuery",
+                "module": "dbconnector",
+                "action": "select",
+                "options": {
+                  "connection": "yourConnection",
+                  "sql": {
+                    "type": "select",
+                    "columns": [{ "table": "notifications", "column": "*" }],
+                    "table": { "name": "notifications" },
+                    "wheres": {
+                      "condition": "AND",
+                      "rules": [
+                        {
+                          "id": "user_id",
+                          "field": "user_id",
+                          "type": "double",
+                          "operator": "equal",
+                          "value": "{{identity}}",
+                          "data": { "column": "user_id" },
+                          "operation": "="
+                        }
+                      ]
+                    }
+                  }
+                },
+                "output": true,
+                "outputType": "array"
+              },
+              {
+                "name": "cacheSet",
+                "module": "cachemachine",
+                "action": "set",
+                "options": {
+                  "cacheKey": "{{identity}}",
+                  "namespace": "notifications",
+                  "data": "{{notificationsQuery}}",
+                  "ttl": 120,
+                  "requireScopeKey": true
+                },
+                "output": false,
+                "outputType": "object"
+              },
+              {
+                "name": "freshResponse",
+                "module": "core",
+                "action": "setvalue",
+                "options": {
+                  "value": "{{notificationsQuery}}"
+                },
+                "output": true,
+                "outputType": "object"
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

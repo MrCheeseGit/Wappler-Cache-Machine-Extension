@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "id": "cache-machine",
+  "name": "Cache Machine",
+  "version": "1.1.8",
+  "cloneDir": "Wappler-Cache-Machine-Extension",
+  "hasServerConnect": true,
+  "hasAppConnect": false,
+  "readme": "https://github.com/MrCheeseGit/Wappler-Cache-Machine-Extension#installation",
+  "serverConnect": {
+    "directories": [
+      "extensions/server_connect/modules",
+      "lib/modules"
+    ],
+    "copy": [
+      {
+        "src": "cachemachine.js",
+        "dest": "lib/modules/cachemachine.js"
+      },
+      {
+        "src": "cachemachine_get.hjson",
+        "dest": "extensions/server_connect/modules/cachemachine_get.hjson"
+      },
+      {
+        "src": "cachemachine_set.hjson",
+        "dest": "extensions/server_connect/modules/cachemachine_set.hjson"
+      },
+      {
+        "src": "cachemachine_clear.hjson",
+        "dest": "extensions/server_connect/modules/cachemachine_clear.hjson"
+      }
+    ],
+    "notes": [
+      "Copy cachemachine.js to lib/modules/.",
+      "Quit Wappler completely and restart."
+    ]
+  }
+}
