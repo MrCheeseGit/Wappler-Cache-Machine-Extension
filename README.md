@@ -54,6 +54,8 @@ Cache Machine lets you label the note **per user** (`{{identity}}`), **per IP**,
 
 ## Install
 
+Official Wappler guide: [How To Install Custom Wappler Extensions](https://docs.wappler.io/t/how-to-install-custom-wappler-extensions/49982/).
+
 | Path | |
 |------|--|
 | **npm** | Wappler Project Settings → Extensions (`wappler-cache-machine`) |
