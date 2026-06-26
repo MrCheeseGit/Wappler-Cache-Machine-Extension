@@ -1,7 +1,7 @@
 {
   "name": "wappler-cache-machine",
-  "version": "1.1.13",
-  "description": "Cache Machine \u2014 scoped Server Connect caching for Wappler (per user, IP, or custom key). Redis optional.",
+  "version": "1.1.14",
+  "description": "Cache Machine — scoped Server Connect caching for Wappler (per user, IP, or custom key). Redis optional.",
   "main": "server_connect/modules/cachemachine.js",
   "homepage": "https://www.mrcheese.co.uk",
   "repository": {
@@ -23,6 +23,6 @@
   "license": "SEE LICENSE IN LICENSE",
   "wappler": {
     "module": "cachemachine",
-    "version": "1.1.13"
+    "version": "1.1.14"
   }
 }
